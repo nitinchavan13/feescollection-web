@@ -1,0 +1,213 @@
+<div class="card">
+  <div class="card-header">
+    All Exams
+  </div>
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-lg-8 col-md-9 col-sm-12 mb-1">
+        <!-- <input class="form-control" type="text" placeholder="Search for Student" aria-label="Search"> -->
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-12 text-right">
+        <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Add new Exam"
+          (click)="createNewExam(template)">
+          <i class="fa fa-plus-square" aria-hidden="true"></i> Create Exam
+        </button>
+      </div>
+    </div>
+    <accordion [isAnimated]="true" [closeOthers]="true">
+      <accordion-group [isOpen]="true">
+        <button class="btn btn-link btn-block justify-content-between d-flex w-100  shadow-none" accordion-heading
+          type="button">
+          <div class="pull-left float-left">Today's Exams</div>
+          <span class="badge badge-primary bg-primary float-right pull-right">{{examList.todayExams?.length}}</span>
+        </button>
+        <table class="table table-hover table-bordered table-responsive-lg">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col" class="text-center">#</th>
+              <th scope="col">Title Of Exam</th>
+              <th scope="col" class="text-center">Date</th>
+              <th scope="col" class="text-center">Time</th>
+              <th scope="col" class="text-center">Total Marks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="examList.todayExams?.length > 0;else emptyTodayExamContainer">
+              <tr *ngFor="let exam of examList.todayExams; let i = index;">
+                <th scope="row" class="text-center">{{i+1}}</th>
+                <td class="text-capitalize">{{exam.Title}}</td>
+                <td class="text-center">{{exam.ExamDate | date: 'dd/MM/yyyy'}}</td>
+                <td class="text-center">{{exam.IsAllDayEvent ? 'All Day' : exam.StartTime + ' - ' + exam.EndTime }}</td>
+                <td class="text-center">{{exam.TotalMarks}}</td>
+              </tr>
+            </ng-container>
+            <ng-template #emptyTodayExamContainer>
+              <tr>
+                <th class="text-center" colspan="5">No data available</th>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </accordion-group>
+      <accordion-group>
+        <button class="btn btn-link btn-block justify-content-between d-flex w-100  shadow-none" accordion-heading
+          type="button">
+          <div class="pull-left float-left">Upcoming Exams</div>
+          <span class="badge badge-primary bg-primary float-right pull-right">{{examList.upcomingExams?.length}}</span>
+        </button>
+        <table class="table table-hover table-bordered table-responsive-lg">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col" class="text-center">#</th>
+              <th scope="col">Title Of Exam</th>
+              <th scope="col" class="text-center">Date</th>
+              <th scope="col" class="text-center">Time</th>
+              <th scope="col" class="text-center">Total Marks</th>
+              <th scope="col" class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="examList.upcomingExams?.length > 0;else emptyUpcomingExamContainer">
+              <tr *ngFor="let exam of examList.upcomingExams; let i = index;">
+                <th scope="row" class="text-center">{{i+1}}</th>
+                <td class="text-capitalize">{{exam.Title}}</td>
+                <td class="text-center">{{exam.ExamDate | date: 'dd/MM/yyyy'}}</td>
+                <td class="text-center">{{exam.IsAllDayEvent ? 'All Day' : exam.StartTime + ' - ' + exam.EndTime }}</td>
+                <td class="text-center">{{exam.TotalMarks}}</td>
+                <td class="text-center">
+                  <button class="btn btn-sm btn-primary  ml-1 mr-1" data-toggle="tooltip" data-placement="bottom"
+                    title="Edit Exam">
+                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                  </button>
+                  <button class="btn btn-sm btn-primary  ml-1 mr-1" data-toggle="tooltip" data-placement="bottom"
+                    title="Add Questions" (click)="viewExamQuestion(exam.Id)">
+                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger  ml-1 mr-1" data-toggle="tooltip" data-placement="bottom"
+                    title="Delete Exam">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-template #emptyUpcomingExamContainer>
+              <tr>
+                <th class="text-center" colspan="6">No data available</th>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </accordion-group>
+      <accordion-group>
+        <button class="btn btn-link btn-block justify-content-between d-flex w-100  shadow-none" accordion-heading
+          type="button">
+          <div class="pull-left float-left">Past Exams</div>
+          <span class="badge badge-primary bg-primary float-right pull-right">{{examList.pastExams?.length}}</span>
+        </button>
+        <table class="table table-hover table-bordered table-responsive-lg">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col" class="text-center">#</th>
+              <th scope="col">Title Of Exam</th>
+              <th scope="col" class="text-center">Date</th>
+              <th scope="col" class="text-center">Time</th>
+              <th scope="col" class="text-center">Total Marks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="examList.pastExams?.length > 0;else emptyPastExamContainer">
+              <tr *ngFor="let exam of examList.pastExams; let i = index;">
+                <th scope="row" class="text-center">{{i+1}}</th>
+                <td class="text-capitalize">{{exam.Title}}</td>
+                <td class="text-center">{{exam.ExamDate | date: 'dd/MM/yyyy'}}</td>
+                <td class="text-center">{{exam.IsAllDayEvent ? 'All Day' : exam.StartTime + ' - ' + exam.EndTime }}</td>
+                <td class="text-center">{{exam.TotalMarks}}</td>
+              </tr>
+            </ng-container>
+            <ng-template #emptyPastExamContainer>
+              <tr>
+                <th class="text-center" colspan="5">No data available</th>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </accordion-group>
+    </accordion>
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create New Exam</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #examForm="ngForm" (ngSubmit)="saveExam(examForm)">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="title">Exam Title : </label>
+            <input type="text" class="form-control" id="title" #title="ngModel" name="title"
+              [(ngModel)]="examModel.title" required>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="examDate">Exam Date : </label>
+            <input bsDatepicker type="text" placeholder="Exam Date" class="form-control" id="examDate"
+              #examDate="ngModel" name="examDate" [(ngModel)]="examModel.examDate"
+              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" required>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="isAllDayEvent" #isAllDayEvent="ngModel"
+                name="isAllDayEvent" [(ngModel)]="examModel.isAllDayEvent">
+              <label class="form-check-label" for="isAllDayEvent">All Day Event</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="!examModel.isAllDayEvent">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+          <div class="form-group">
+            <label for="address">Start Time : </label>
+            <timepicker id="startTime" #startTime="ngModel" name="startTime" [(ngModel)]="examModel.startTime">
+            </timepicker>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+          <div class="form-group">
+            <label for="address">End Time : </label>
+            <timepicker id="endTime" #endTime="ngModel" name="endTime" [(ngModel)]="examModel.endTime"></timepicker>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="totalMarks">Total Marks : </label>
+            <input type="number" class="form-control" id="totalMarks" #totalMarks="ngModel" name="totalMarks"
+              [(ngModel)]="examModel.totalMarks" required>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="minPassingMarks">Minimum Passing Marks : </label>
+            <input type="number" class="form-control" id="minPassingMarks" #minPassingMarks="ngModel"
+              name="minPassingMarks" [(ngModel)]="examModel.minPassingMarks" required>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success pull-right">Save Exam and Add
+        Questions</button>
+    </form>
+  </div>
+</ng-template>

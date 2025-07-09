@@ -1,0 +1,51 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mx-auto">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <form [formGroup]="loginForm">
+                  <h1 class="text-center">Login</h1>
+                  <p class="text-muted text-center">Sign In to your account</p>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Username" autocomplete="username"
+                      formControlName="username" name="username" id="username">
+                  </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-lock"></i></span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="Password" autocomplete="current-password"
+                      name="password" formControlName="password" id="password">
+                  </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-calendar"></i></span>
+                    </div>
+                    <select class="form-control" formControlName="academicYear">
+                      <option value="1">2021-2022</option>
+                      <option value="2">2022-2023</option>
+                      <option value="3">2023-2024</option>
+                      <option value="4">2024-2025</option>
+                    </select>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 text-center">
+                      <button type="submit" [disabled]="loginForm.invalid" (click)="loginUser()"
+                        class="btn btn-primary px-4">Login</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

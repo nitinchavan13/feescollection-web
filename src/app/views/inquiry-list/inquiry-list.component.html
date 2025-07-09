@@ -1,0 +1,57 @@
+<div class="card">
+  <div class="card-header">
+    All Enquiries
+  </div>
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-lg-8 col-md-9 col-sm-12 mb-1">
+        <input class="form-control" type="text" placeholder="Search for Student" aria-label="Search">
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-12 text-right">
+        <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Add new Enquiry">
+          <i class="fa fa-plus-square" aria-hidden="true"></i> Add Enquiry
+        </button>
+      </div>
+    </div>
+    <table class="table table-hover table-bordered table-responsive-lg">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="text-center" style="width: 5%;">#</th>
+          <th scope="col" style="width: 25%;">Name</th>
+          <th scope="col" class="text-center" style="width: 10%;">Mobile #</th>
+          <th scope="col" class="text-center" style="width: 30%;">Address</th>
+          <th scope="col" class="text-center" style="width: 15%;">Enquiry Date</th>
+          <th scope="col" style="width: 15%;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let enquiry of filteredEnquiries; let i=index">
+          <th scope="row" class="text-center">{{i+1}}</th>
+          <td class="text-capitalize">{{enquiry.name}}</td>
+          <td class="text-center">{{enquiry.mobileNumber}}</td>
+          <td class="text-center">{{enquiry.address }}</td>
+          <td class="text-center">{{enquiry.enquiryDate | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <button class="btn btn-sm btn-primary ml-1 mr-1 mb-1" data-toggle="tooltip" data-placement="bottom"
+              title="View Details">
+              <span class="hidden-xs hidden-sm"></span> <i class="fa fa-eye" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-sm btn-success  ml-1 mr-1" data-toggle="tooltip" data-placement="bottom"
+              title="Confirm Admission">
+              <i class="fa fa-check" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-sm btn-danger ml-1 mr-1" data-toggle="tooltip" data-placement="bottom"
+              title="Invalid Enquiry">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <pagination [boundaryLinks]="true" [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+        class="pagination-sm pull-right" previousText="&lsaquo;" nextText="&rsaquo;" [boundaryLinks]="true"
+        (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,191 @@
+<div class="card">
+  <div class="card-header">
+    Exam Details
+    <button class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="Back to List"
+      (click)="gotoList()">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+    </button>
+  </div>
+  <div class="card-body">
+    <accordion [isAnimated]="true" [closeOthers]="true">
+      <accordion-group>
+        <button class="btn btn-link btn-block justify-content-between d-flex w-100  shadow-none" accordion-heading
+          type="button">
+          <div class="pull-left float-left">Exam Details</div>
+        </button>
+        <div class="row">
+          <div class="col-lg-6 col-md-12 col-sm-12">
+            <span class="font-weight-bold">Title: </span> {{examDetails.title}}
+          </div>
+          <div class="col-lg-6 col-md-12 col-sm-12">
+            <span class="font-weight-bold">Date: </span> 05/11/2023
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-12 col-sm-12">
+            <span class="font-weight-bold">Duration: </span> {{examDetails.isAllDayEvent ? 'All Day' :
+            examDetails.startTime + ' - ' + examDetails.endTime }}
+          </div>
+          <div class="col-lg-6 col-md-12 col-sm-12">
+            <span class="font-weight-bold">Total Marks: </span> {{examDetails.totalMarks}}
+          </div>
+        </div>
+      </accordion-group>
+      <accordion-group [isOpen]="true">
+        <button class="btn btn-link btn-block justify-content-between d-flex w-100  shadow-none" accordion-heading
+          type="button">
+          <div class="pull-left float-left">Exam Questions</div>
+          <span class="badge badge-secondary bg-secondary float-right pull-right">Total Questions:
+            {{questionList.length}} &nbsp;&nbsp;&nbsp;&nbsp;Total Marks: {{totalQuestionMarks}}</span>
+        </button>
+        <div class="row mb-3">
+          <div class="col-lg-8 col-md-9 col-sm-12 mb-1">
+            <!-- <input class="form-control" type="text" placeholder="Search for Student" aria-label="Search"> -->
+          </div>
+          <div class="col-lg-4 col-md-3 col-sm-12 text-right">
+            <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Create New Question"
+              (click)="addQuestion(template)">
+              <i class="fa fa-plus-square" aria-hidden="true"></i> Create New Question
+            </button>
+          </div>
+        </div>
+        <table class="table table-hover table-bordered table-responsive-lg">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col" class="text-center">#</th>
+              <th scope="col">Question</th>
+              <th scope="col" class="text-center">Option1</th>
+              <th scope="col" class="text-center">Option2</th>
+              <th scope="col" class="text-center">Option3</th>
+              <th scope="col" class="text-center">Option4</th>
+              <th scope="col" class="text-center">Correct Option</th>
+              <th scope="col" class="text-center">Marks</th>
+              <th scope="col" class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ques of questionList; ;let i = index;">
+              <th scope="row" class="text-center">{{i+1}}</th>
+              <td class="text-capitalize">{{ques.questionText}}</td>
+              <td class="text-center">{{ques.option1}}</td>
+              <td class="text-center">{{ques.option2}}</td>
+              <td class="text-center">{{ques.option3}}</td>
+              <td class="text-center">{{ques.option4}}</td>
+              <td class="text-center">{{ques.correctOption}}</td>
+              <td class="text-center">{{ques.markPerQuestion}}</td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-primary  ml-1 mr-1" data-toggle="tooltip" data-placement="bottom"
+                  title="Edit Payment">
+                  <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-sm btn-danger  ml-1 mr-1" data-toggle="tooltip" data-placement="bottom"
+                  title="delete student">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </accordion-group>
+    </accordion>
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add Question</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #questionForm="ngForm" (ngSubmit)="saveQuestion(questionForm)">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="title">Question Text : </label>
+            <textarea class="form-control" rows="4" id="questionText" #questionText="ngModel" name="questionText"
+              [(ngModel)]="questionModel.questionText" required></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="title">Option 1 : </label>
+            <textarea class="form-control" rows="2" id="option1" #option1="ngModel" name="option1"
+              [(ngModel)]="questionModel.option1" required></textarea>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="title">Option 2 : </label>
+            <textarea class="form-control" rows="2" id="option2" #option2="ngModel" name="option2"
+              [(ngModel)]="questionModel.option2" required></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="title">Option 3 : </label>
+            <textarea class="form-control" rows="2" id="option3" #option3="ngModel" name="option3"
+              [(ngModel)]="questionModel.option3" required></textarea>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="title">Option 4 : </label>
+            <textarea class="form-control" rows="2" id="option4" #option4="ngModel" name="option4"
+              [(ngModel)]="questionModel.option4" required></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="form-group">
+            <p>Choose Correct Option :</p>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="correctOption" value="option1"
+                  #correctOption="ngModel" [(ngModel)]="questionModel.correctOption"
+                  (change)="updateCorrectOption($event)">Option 1
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="correctOption" value="option2"
+                  #correctOption="ngModel" [(ngModel)]="questionModel.correctOption"
+                  (change)="updateCorrectOption($event)">Option 2
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="correctOption" value="option3"
+                  #correctOption="ngModel" [(ngModel)]="questionModel.correctOption"
+                  (change)="updateCorrectOption($event)">Option 3
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="correctOption" value="option4"
+                  #correctOption="ngModel" [(ngModel)]="questionModel.correctOption"
+                  (change)="updateCorrectOption($event)">Option 4
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="title">Marks For This Question : </label>
+            <input type="number" class="form-control" id="markPerQuestion" #markPerQuestion="ngModel"
+              name="markPerQuestion" [(ngModel)]="questionModel.markPerQuestion" required>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success pull-right">Add Question</button>
+    </form>
+  </div>
+</ng-template>

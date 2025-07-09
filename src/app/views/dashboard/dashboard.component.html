@@ -1,0 +1,36 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-info">
+        <div class="card-body pb-0">
+          <div class="text-value">{{dashboardCard.totalStudents}}</div>
+          <div>एकूण विद्यार्थी</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-primary">
+        <div class="card-body pb-0">
+          <div class="text-value">{{dashboardCard.totalCredit | currency:"INR":"symbol"}}</div>
+          <div>एकूण जमा</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-warning">
+        <div class="card-body pb-0">
+          <div class="text-value">{{dashboardCard.totalDebit | currency:"INR":"symbol"}}</div>
+          <div>एकूण खर्च</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-danger">
+        <div class="card-body pb-0">
+          <div class="text-value">{{remaniningAmount | currency:"INR":"symbol"}}</div>
+          <div>शिल्लक रक्कम</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

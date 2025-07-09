@@ -1,0 +1,153 @@
+<div class="card">
+  <div class="card-header">
+    All Expences
+  </div>
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-lg-4">
+        <!-- <input class="form-control" type="text" placeholder="Search for Expence" aria-label="Search"> -->
+        <select class="form-control" (change)="onValueChange()" [(ngModel)]="currentMonth">
+          <option value="0">January</option>
+          <option value="1">February</option>
+          <option value="2">March</option>
+          <option value="3">April</option>
+          <option value="4">May</option>
+          <option value="5">June</option>
+          <option value="6">July</option>
+          <option value="7">August</option>
+          <option value="8">September</option>
+          <option value="9">October</option>
+          <option value="10">November</option>
+          <option value="11">December</option>
+        </select>
+      </div>
+      <div class="col-lg-4">
+        <h4><b>This Month Expence: {{ currentMonthExpence | currency:"INR":"symbol" }}</b></h4>
+      </div>
+      <div class="col-lg-4 text-right">
+        <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Add new Expence"
+          (click)="addNewExpence(template)">
+          <i class="fa fa-plus-square" aria-hidden="true"></i> Add Expence
+        </button>
+      </div>
+    </div>
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="text-center" style="width: 5%;">#</th>
+          <th scope="col" class="text-center" style="width: 10%;">Amount</th>
+          <th scope="col" class="text-center" style="width: 15%;">Date</th>
+          <th scope="col" style="width: 15%;">Type</th>
+          <th scope="col" style="width: 45%;">Note</th>
+          <th scope="col" style="width: 10%;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expence of filteredExpences; let i=index">
+          <th scope="row" class="text-center">{{i+1}}</th>
+          <td class="text-center">{{expence.expenceAmount | currency:"INR":"symbol"}}</td>
+          <td class="text-center">{{expence.expenceDate | date: 'dd/MM/yyyy'}}</td>
+          <td>{{expence.expenceType}}</td>
+          <td>{{expence.expenceNote}}</td>
+          <td>
+            <button class="btn btn-sm btn-primary  ml-1 mr-1" data-toggle="tooltip" data-placement="bottom"
+              title="Edit Expence" (click)="editExpence(editTemplate, expence)">
+              <i class="fa fa-pencil-square" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-sm btn-danger  ml-1 mr-1" data-toggle="tooltip" data-placement="bottom"
+              title="Delete Expence" (click)="deleteExpence(expence)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <pagination [boundaryLinks]="true" [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+        class="pagination-sm pull-right" previousText="&lsaquo;" nextText="&rsaquo;" [boundaryLinks]="true"
+        (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+  </div>
+</div>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add Expence</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #expenceForm="ngForm" (ngSubmit)="saveExpence(expenceForm)">
+      <div class="form-group">
+        <label for="expAmount">Expence Amount:</label>
+        <input type="number" class="form-control" id="expAmount" #expAmount="ngModel" name="expAmount"
+          [(ngModel)]="expence.expenceAmount" required>
+      </div>
+      <div class="form-group">
+        <label for="expDate">Expence Date:</label>
+        <input type="date" class="form-control" id="expDate" #expDate="ngModel" name="expDate"
+          [(ngModel)]="expence.expenceDate" required>
+      </div>
+      <div class="form-group">
+        <label for="expType">Expence Type:</label>
+        <select class="form-control" id="expType" #expType="ngModel" name="expType" [(ngModel)]="expence.expenceType"
+          required>
+          <option>Office Rent</option>
+          <option>Lecturer Payment</option>
+          <option>Stationary</option>
+          <option>Light Bill</option>
+          <option>Water Bill</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="expNote">Expence Note:</label>
+        <textarea class="form-control" rows="4" id="expNote" #expNote="ngModel" name="expNote"
+          [(ngModel)]="expence.expenceNote" required></textarea>
+      </div>
+      <button [disabled]="expenceForm.invalid" type="submit" class="btn btn-success pull-right">Save Expence</button>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #editTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Expence</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #editExpenceForm="ngForm" (ngSubmit)="updateExpence(editExpenceForm)">
+      <div class="form-group">
+        <label for="expAmount">Expence Amount:</label>
+        <input type="number" class="form-control" id="expAmount" #expAmount="ngModel" name="expAmount"
+          [(ngModel)]="expence.expenceAmount" required>
+      </div>
+      <div class="form-group">
+        <label for="expDate">Expence Date:</label>
+        <input type="date" class="form-control" id="expDate" #expDate="ngModel" name="expDate"
+          [(ngModel)]="expence.expenceDate" required>
+      </div>
+      <div class="form-group">
+        <label for="expType">Expence Type:</label>
+        <select class="form-control" id="expType" #expType="ngModel" name="expType" [(ngModel)]="expence.expenceType"
+          required>
+          <option>Office Rent</option>
+          <option>Lecturer Payment</option>
+          <option>Stationary</option>
+          <option>Light Bill</option>
+          <option>Water Bill</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="expNote">Expence Note:</label>
+        <textarea class="form-control" rows="4" id="expNote" #expNote="ngModel" name="expNote"
+          [(ngModel)]="expence.expenceNote" required></textarea>
+      </div>
+      <button [disabled]="editExpenceForm.invalid" type="submit" class="btn btn-success pull-right">Edit
+        Expence</button>
+    </form>
+  </div>
+</ng-template>

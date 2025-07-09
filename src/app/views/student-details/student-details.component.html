@@ -1,0 +1,137 @@
+<div class="card">
+  <div class="card-header">
+    Student Details
+    <button class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="Back to List"
+      (click)="gotoList()">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-lg-6">
+        <label>Student Name : </label>
+        <b>{{studentInfo.name}}</b>
+      </div>
+      <div class="col-lg-6">
+        <label>Student Mobile : </label>
+        <b>{{studentInfo.mobileNumber}}</b>
+      </div>
+      <div class="col-lg-6">
+        <label>Student Email Id : </label>
+        <b>{{studentInfo.emailId}}</b>
+      </div>
+      <div class="col-lg-6">
+        <label>Student Course : </label>
+        <b>{{studentInfo.course}}</b>
+      </div>
+      <div class="col-lg-6">
+        <label>Total Collected Fees : </label>
+        <b>{{collectedFees | currency:"INR":"symbol"}}</b>
+      </div>
+      <div class="col-lg-6">
+        <label>Total Remaining Fees : </label>
+        <b>{{remainingFees | currency:"INR":"symbol"}}</b>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-lg-8">
+      </div>
+      <div class="col-lg-4 text-right">
+        <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Add new Payment"
+          (click)="addTransaction(template)">
+          <i class="fa fa-plus-square" aria-hidden="true"></i> Add Payment
+        </button>
+        <button class="btn btn-primary" (click)="sendPaymentReminder()">Send Reminder</button>
+      </div>
+    </div>
+    <table class="table table-hover table-bordered" id="mytodosItemsId">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="text-center" style="width: 5%;">#</th>
+          <th scope="col" class="text-center" style="width: 20%;">Paid Amount</th>
+          <th scope="col" class="text-center" style="width: 20%;">Paid Date</th>
+          <th scope="col" style="width: 45%;">Note</th>
+          <th scope="col" style="width: 5%;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of allTransactions; let i=index">
+          <th scope="row" class="text-center">{{i+1}}</th>
+          <td class="text-center">{{transaction.paidAmount | currency:"INR":"symbol"}}</td>
+          <td class="text-center">{{transaction.collectionDate | date: 'dd/MM/yyyy'}}</td>
+          <td>{{transaction.note}}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-primary  ml-1 mr-1" data-toggle="tooltip" data-placement="bottom"
+              title="Edit Payment" (click)="editTransaction(editTemplate, transaction)">
+              <i class="fa fa-pencil-square" aria-hidden="true"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <pagination [boundaryLinks]="true" [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+        class="pagination-sm pull-right" previousText="&lsaquo;" nextText="&rsaquo;" [boundaryLinks]="true"
+        (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+  </div>
+</div>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add Student Fees</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #studentFeesForm="ngForm" (ngSubmit)="saveFees(studentFeesForm)">
+      <div class="form-group">
+        <label for="feeAmount">Fee Amount:</label>
+        <input type="number" class="form-control" id="feeAmount" #feeAmount="ngModel" name="feeAmount"
+          [(ngModel)]="feeModel.paidAmount" required>
+      </div>
+      <div class="form-group">
+        <label for="collectionDate">Collection Date:</label>
+        <input type="date" class="form-control" id="collectionDate" #collectionDate="ngModel" name="collectionDate"
+          [(ngModel)]="feeModel.collectionDate" required>
+      </div>
+      <div class="form-group">
+        <label for="note">Additional Note:</label>
+        <textarea class="form-control" rows="4" id="note" #note="ngModel" name="note" [(ngModel)]="feeModel.note"
+          required></textarea>
+      </div>
+      <button [disabled]="studentFeesForm.invalid" type="submit" class="btn btn-success pull-right">Save
+        Transaction</button>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #editTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Student Fees</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #editStudentFeesForm="ngForm" (ngSubmit)="updateFees(editStudentFeesForm)">
+      <div class="form-group">
+        <label for="feeAmount">Fee Amount:</label>
+        <input type="number" class="form-control" id="feeAmount" #feeAmount="ngModel" name="feeAmount"
+          [(ngModel)]="feeModel.paidAmount" required>
+      </div>
+      <div class="form-group">
+        <label for="collectionDate">Collection Date:</label>
+        <input type="date" class="form-control" id="collectionDate" #collectionDate="ngModel" name="collectionDate"
+          [(ngModel)]="feeModel.collectionDate" required>
+      </div>
+      <div class="form-group">
+        <label for="note">Additional Note:</label>
+        <textarea class="form-control" rows="4" id="note" #note="ngModel" name="note" [(ngModel)]="feeModel.note"
+          required></textarea>
+      </div>
+      <button [disabled]="editStudentFeesForm.invalid" type="submit" class="btn btn-success pull-right">Save
+        Transaction</button>
+    </form>
+  </div>
+</ng-template>
