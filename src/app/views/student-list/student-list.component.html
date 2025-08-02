@@ -216,6 +216,17 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="form-group">
+            <label for="profilePic">Profile Pic : </label>
+            <input type="file" class="form-control-file" [(ngModel)]="student.profilePic" #profilePic="ngModel" name="profilePic"
+              (change)="onFileChange($event)" accept="image/*">
+            <img *ngIf="student.profilePic" [src]="student.profilePic" [alt]="student.profilePic"
+              class="img-thumbnail mt-2" style="width: 100px; height: 100px;">
+          </div>
+        </div>
+      </div>
       <button [disabled]="studentForm.invalid" type="submit" class="btn btn-success pull-right">Save Student</button>
     </form>
   </div>
@@ -253,7 +264,8 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
           <div class="form-group">
-            <img [src]="student.profilePic" [alt]="student.profilePic" class="img-thumbnail" style="width: 100px; height: 100px;">
+            <img [src]="student.profilePic" [alt]="student.profilePic" class="img-thumbnail"
+              style="width: 100px; height: 100px;">
           </div>
         </div>
       </div>

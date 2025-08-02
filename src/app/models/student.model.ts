@@ -23,4 +23,5 @@ export class Student {
   // Required for UI only
   public age: number;
   displayId: number;
+  public profilePicFile: File;
 }

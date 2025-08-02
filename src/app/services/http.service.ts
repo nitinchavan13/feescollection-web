@@ -84,6 +84,22 @@ export class HttpService {
       this.parseResponse(response, this.blockUIService, true)).catch((err) => this.handleError(err, this.blockUIService, true));
   }
 
+  public httpPostMultipart(url: string, formData: FormData): Observable<any> {
+    this.blockUIService.showSpinner();
+
+    let headers = new Headers();
+
+    const loggedInUserData = this._storageService.getUserInfo();
+    if (loggedInUserData !== null) {
+      formData.append('userId', loggedInUserData.Id.toString());
+      formData.append('academicYearId', loggedInUserData.AcademicYearId.toString());
+    }
+
+    const options = new RequestOptions({ headers: headers });
+    return this.http.post(url, formData, options).map((response) =>
+      this.parseResponse(response, this.blockUIService, true)).catch((err) => this.handleError(err, this.blockUIService, true));
+  }
+
   public httpPostWithNoBlock(url: string, body: any, showLoader = true): Observable<any> {
     this.blockUIService.showSpinner();
     const headers = new Headers();
@@ -116,25 +132,23 @@ export class HttpService {
   }
 
   private parseResponse(response: Response, blockUIService: LoadingService, blocking: Boolean) {
-    const userResponse = response.json();
-    if (userResponse != null) {
-      if (userResponse.access_token != null) {
-        if (typeof (Storage) !== 'undefined') {
-          const data = {
-            token: userResponse.access_token,
-            // userId: userResponse.user_id,
-            // userRoles: userResponse.roles,
-            // userName: userResponse.user_name
-          };
-          localStorage.setItem('youpi_authdata', JSON.stringify(data));
-        }
-      }
-    }
+    // let userResponse: any;
+    // if (userResponse != null) {
+    //   if (userResponse.access_token != null) {
+    //     if (typeof (Storage) !== 'undefined') {
+    //       const data = {
+    //         token: userResponse.access_token,
+    //         // userId: userResponse.user_id,
+    //         // userRoles: userResponse.roles,
+    //         // userName: userResponse.user_name
+    //       };
+    //       localStorage.setItem('youpi_authdata', JSON.stringify(data));
+    //     }
+    //   }
+    // }
 
     this.blockUIService.hideSpinner();
-
-    const body = response.json();
-    return body;
+    return response.json();
   }
 
   public uploadImage(url: string, formData: FormData): Observable<any> {

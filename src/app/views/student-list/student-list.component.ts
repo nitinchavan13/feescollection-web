@@ -101,36 +101,70 @@ export class StudentListComponent implements OnInit {
     this.modalRef = this._modalService.show(template, this.config);
   }
 
-  saveStudent(form: NgForm) {
-    if (form.invalid) {
-      return false;
-    }
-    const newStudent = new Student();
-    newStudent.firstName = form.value.firstName;
-    newStudent.middleName = form.value.middleName;
-    newStudent.lastName = form.value.lastName;
-    newStudent.mobileNumber = form.value.mobileNumber;
-    newStudent.emailId = form.value.emailId;
-    newStudent.address = form.value.address;
-    newStudent.courseId = 1;//form.value.courseId;
-    newStudent.race = form.value.race;
-    newStudent.cast = form.value.cast;
-    newStudent.gender = form.value.gender;
-    newStudent.birthdate = form.value.birthdate;
-    newStudent.qualification = form.value.qualification;
-    newStudent.aadharNumber = form.value.aadharNumber;
-    newStudent.panNumber = form.value.panNumber;
-    newStudent.isHavingHeavyLicence = form.value.heavyLicence;
+  // saveStudent(form: NgForm) {
+  //   if (form.invalid) {
+  //     return false;
+  //   }
+  //   const newStudent = new Student();
+  //   newStudent.firstName = form.value.firstName;
+  //   newStudent.middleName = form.value.middleName;
+  //   newStudent.lastName = form.value.lastName;
+  //   newStudent.mobileNumber = form.value.mobileNumber;
+  //   newStudent.emailId = form.value.emailId;
+  //   newStudent.address = form.value.address;
+  //   newStudent.courseId = 1;//form.value.courseId;
+  //   newStudent.race = form.value.race;
+  //   newStudent.cast = form.value.cast;
+  //   newStudent.gender = form.value.gender;
+  //   newStudent.birthdate = form.value.birthdate;
+  //   newStudent.qualification = form.value.qualification;
+  //   newStudent.aadharNumber = form.value.aadharNumber;
+  //   newStudent.panNumber = form.value.panNumber;
+  //   newStudent.isHavingHeavyLicence = form.value.heavyLicence;
 
-    this._httpService.httpPost(API_ENDPOINTS.SAVE_STUDENT(), newStudent, true).subscribe((data) => {
-      this.bindData(data);
-      form.resetForm();
-      this.student = new Student();
-      this.modalRef.hide();
-    }, (err) => {
-      this._notificationService.showError(err);
-    });
+  //   this._httpService.httpPost(API_ENDPOINTS.SAVE_STUDENT(), newStudent, true).subscribe((data) => {
+  //     this.bindData(data);
+  //     form.resetForm();
+  //     this.student = new Student();
+  //     this.modalRef.hide();
+  //   }, (err) => {
+  //     this._notificationService.showError(err);
+  //   });
+  // }
+
+  saveStudent(form: NgForm) {
+  if (form.invalid) {
+    return false;
   }
+  const formData = new FormData();
+  formData.append('firstName', form.value.firstName);
+  formData.append('middleName', form.value.middleName);
+  formData.append('lastName', form.value.lastName);
+  formData.append('mobileNumber', form.value.mobileNumber);
+  formData.append('emailId', form.value.emailId);
+  formData.append('address', form.value.address);
+  formData.append('courseId', '1');
+  formData.append('race', form.value.race);
+  formData.append('cast', form.value.cast);
+  formData.append('gender', form.value.gender);
+  formData.append('birthdate', form.value.birthdate.toLocaleDateString());
+  formData.append('qualification', form.value.qualification);
+  formData.append('aadharNumber', form.value.aadharNumber);
+  formData.append('panNumber', form.value.panNumber);
+  formData.append('isHavingHeavyLicence', form.value.isHavingHeavyLicence);
+  if (this.student.profilePicFile) {
+    formData.append('profilePic', this.student.profilePicFile);
+  }
+
+  this._httpService.httpPostMultipart(API_ENDPOINTS.SAVE_STUDENT(), formData).subscribe((data) => {
+    this.bindData(data);
+    form.resetForm();
+    this.student = new Student();
+    this.modalRef.hide();
+  }, (err) => {
+    this._notificationService.showError(err);
+  });
+}
 
   searchForStudent(event) {
     const filterValue = event.target.value;
@@ -183,7 +217,7 @@ export class StudentListComponent implements OnInit {
     newStudent.qualification = form.value.qualification;
     newStudent.aadharNumber = form.value.aadharNumber;
     newStudent.panNumber = form.value.panNumber;
-    newStudent.isHavingHeavyLicence = form.value.heavyLicence;
+    newStudent.isHavingHeavyLicence = form.value.isHavingHeavyLicence;
     newStudent.courseId = form.value.courseId;
     this._httpService.httpPost(API_ENDPOINTS.UPDATE_STUDENT(), newStudent, true).subscribe((data) => {
       this.bindData(data);
@@ -217,6 +251,19 @@ export class StudentListComponent implements OnInit {
         this._modalService.hide();
         this.bindData(data);
       });
+    }
+  }
+
+  onFileChange(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.student.profilePicFile = file; // Store the file object
+      this.student.profilePic = ''; // Reset the preview
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.student.profilePic = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
   }
 }
