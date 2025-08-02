@@ -5,6 +5,9 @@ export const API_ENDPOINTS = {
   LOGIN() {
     return this.BASE_URL + 'auth/login';
   },
+    GET_ACADEMIC_YEARS() {
+    return this.BASE_URL + 'auth/academicYears';
+  },
   GET_DASHBOARD_CARDS() {
     return this.BASE_URL + 'dashboard/getDashboardCards';
   },

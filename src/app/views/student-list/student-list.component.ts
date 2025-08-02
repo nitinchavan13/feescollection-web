@@ -7,6 +7,7 @@ import { HttpService } from '../../services/http.service';
 import { LocalStorageService } from '../../services/localStorage.service';
 import { NotificationService } from '../../services/notification.service';
 import { API_ENDPOINTS } from '../../_api-endpoints';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-student-list',
@@ -74,6 +75,7 @@ export class StudentListComponent implements OnInit {
       student.aadharNumber = element.AadharNumber;
       student.panNumber = element.PanNumber;
       student.isHavingHeavyLicence = element.IsHavingHeavyLicence;
+      student.profilePic = environment.domainUrl + element.ProfilePic;
       this.allStudents.push(student);
     }
     this.bigTotalItems = this.allStudents.length;
@@ -156,6 +158,7 @@ export class StudentListComponent implements OnInit {
     this.student.aadharNumber = student.aadharNumber;
     this.student.panNumber = student.panNumber;
     this.student.isHavingHeavyLicence = student.isHavingHeavyLicence;
+    this.student.profilePic = student.profilePic;
     this.student.courseId = 1;
     this.config.class = 'large-model';
     this.modalRef = this._modalService.show(template, this.config);

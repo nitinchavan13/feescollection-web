@@ -6,6 +6,7 @@ import { LocalStorageService } from '../../services/localStorage.service';
 import { LoginService } from '../../services/login/login.service';
 import { NotificationService } from '../../services/notification.service';
 import { API_ENDPOINTS } from '../../_api-endpoints';
+import { AcademicYear } from '../../models/academic-year.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +14,7 @@ import { API_ENDPOINTS } from '../../_api-endpoints';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  academicYears: AcademicYear[] = [];
 
   constructor(
     private _router: Router,
@@ -21,13 +23,22 @@ export class LoginComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _loginService: LoginService,
     private storageServ: LocalStorageService
-  ) { }
+  ) {}
 
   ngOnInit() {
+    this._httpService.httpPost(API_ENDPOINTS.GET_ACADEMIC_YEARS(), null, true).subscribe((data) => {
+      this.academicYears = data.map(ay => new AcademicYear(ay.Id, ay.AcademicYear))
+      .sort((a, b) => b.academicYear.localeCompare(a.academicYear)); // Sort descending by academicYear;
+    }, (error) => {
+      this._notificationService.showError(error.Message);
+    });
     this.loginForm = this._formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-      academicYear: ['', Validators.required]
+      academicYear: [
+        this.academicYears && this.academicYears.length > 0 ? this.academicYears[this.academicYears.length-1].id : '',
+        Validators.required
+      ]
     });
   }
 

@@ -18,6 +18,7 @@ export class Student {
   public aadharNumber: string;
   public panNumber: Date;
   public isHavingHeavyLicence: boolean;
+  public profilePic: string;
 
   // Required for UI only
   public age: number;

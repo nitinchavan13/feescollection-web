@@ -28,10 +28,7 @@
                       <span class="input-group-text"><i class="icon-calendar"></i></span>
                     </div>
                     <select class="form-control" formControlName="academicYear">
-                      <option value="1">2021-2022</option>
-                      <option value="2">2022-2023</option>
-                      <option value="3">2023-2024</option>
-                      <option value="4">2024-2025</option>
+                      <option *ngFor="let ay of academicYears" [value]="ay.id">{{ay.academicYear}}</option>
                     </select>
                   </div>
                   <div class="row">
