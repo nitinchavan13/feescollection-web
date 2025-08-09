@@ -12,6 +12,8 @@ import { StudentDetailsComponent } from './views/student-details/student-details
 import { StudentListComponent } from './views/student-list/student-list.component';
 import { AllExamsComponent } from './views/all-exams/all-exams.component';
 import { ExamDetailsComponent } from './views/exam-details/exam-details.component';
+import { FinalExamResultListComponent } from './views/final-exam-result-list/final-exam-result-list.component';
+import { FinalExamResultAddComponent } from './views/final-exam-result-add/final-exam-result-add.component';
 
 export const routes: Routes = [
   {
@@ -67,6 +69,20 @@ export const routes: Routes = [
         component: ExamDetailsComponent,
         data: {
           title: 'All Exams / Exam Details'
+        }
+      },
+      {
+        path: 'final-exam-results',
+        component: FinalExamResultListComponent,
+        data: {
+          title: 'Final Exam Results'
+        }
+      },
+      {
+        path: 'final-exam-results/add-details/:id',
+        component: FinalExamResultAddComponent,
+        data: {
+          title: 'Final Exam Results / Add Details'
         }
       },
       // {

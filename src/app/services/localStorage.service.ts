@@ -36,4 +36,12 @@ export class LocalStorageService {
     }
   }
 
+  public setSelectedAcademicYear(year: string) {
+    localStorage.setItem('selectedAcademicYear', year);
+  }
+
+  public getSelectedAcademicYear() {
+    return localStorage.getItem('selectedAcademicYear');
+  }
+
 }

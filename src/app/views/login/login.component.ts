@@ -52,6 +52,10 @@ export class LoginComponent implements OnInit {
       this._notificationService.showSuccess('Welcome back');
       this._loginService.setLoggedInState(true);
       this.storageServ.setUserInfo(data);
+      const selectedYearId = this.loginForm.controls.academicYear.value;
+      const selectedYearObj = this.academicYears.find(ay => ay.id === parseInt(selectedYearId, 10));
+      const selectedYearText = selectedYearObj ? selectedYearObj.academicYear : '';
+      this.storageServ.setSelectedAcademicYear(selectedYearText);
       this._router.navigate(['/dashboard']);
     }, (error) => {
       this._notificationService.showError(error.Message);

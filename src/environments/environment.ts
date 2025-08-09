@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  domainUrl: 'http://localhost:51268/',
-  apiEndPoint: 'http://localhost:51268/api/v1/internal/'
-  // domainUrl: 'https://adminapi.azadhinda.com',
-  // apiEndPoint: 'https://adminapi.azadhinda.com/api/v1/internal/'
+  // domainUrl: 'http://localhost:51268/',
+  // apiEndPoint: 'http://localhost:51268/api/v1/internal/'
+  domainUrl: 'https://adminapi.azadhinda.com',
+  apiEndPoint: 'https://adminapi.azadhinda.com/api/v1/internal/'
 };

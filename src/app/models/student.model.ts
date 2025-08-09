@@ -19,6 +19,7 @@ export class Student {
   public panNumber: Date;
   public isHavingHeavyLicence: boolean;
   public profilePic: string;
+  public profilePicBytes: string;
 
   // Required for UI only
   public age: number;

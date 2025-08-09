@@ -41,5 +41,10 @@ export const navItems: INavData[] = [
     name: 'Exam Section',
     url: 'all-exams',
     icon: 'fa fa-book'
+  },
+  {
+    name: 'Result Creation Wizard',
+    url: 'final-exam-results',
+    icon: 'fa fa-table'
   }
 ];

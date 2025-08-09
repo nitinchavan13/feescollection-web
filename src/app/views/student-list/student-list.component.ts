@@ -75,12 +75,24 @@ export class StudentListComponent implements OnInit {
       student.aadharNumber = element.AadharNumber;
       student.panNumber = element.PanNumber;
       student.isHavingHeavyLicence = element.IsHavingHeavyLicence;
-      student.profilePic = environment.domainUrl + element.ProfilePic;
+      student.profilePic = environment.domainUrl + "/" + element.ProfilePic;
+      student.profilePicBytes = element.ProfilePicBytes;
       this.allStudents.push(student);
     }
     this.bigTotalItems = this.allStudents.length;
     this.filteredStudents = this.allStudents.slice(0, 10);
   }
+
+//   getImageSrcFromBytes(bytes: number[]): string {
+//   if (!bytes) return '';
+//   const binary = new Uint8Array(bytes).reduce((data, byte) => data + String.fromCharCode(byte), '');
+//   return 'data:image/jpeg;base64,' + btoa(binary);
+// }
+
+getImageSrcFromBytes(base64: string): string {
+  if (!base64) return '';
+  return 'data:image/jpeg;base64,' + base64;
+}
 
   private getStudents() {
     this._httpService.httpPost(API_ENDPOINTS.GET_STUDENTS(), null, true).subscribe((data) => {
@@ -147,7 +159,7 @@ export class StudentListComponent implements OnInit {
   formData.append('race', form.value.race);
   formData.append('cast', form.value.cast);
   formData.append('gender', form.value.gender);
-  formData.append('birthdate', form.value.birthdate.toLocaleDateString());
+  formData.append('birthdate', form.value.birthdate.toLocaleDateString('en-GB'));
   formData.append('qualification', form.value.qualification);
   formData.append('aadharNumber', form.value.aadharNumber);
   formData.append('panNumber', form.value.panNumber);
@@ -193,6 +205,7 @@ export class StudentListComponent implements OnInit {
     this.student.panNumber = student.panNumber;
     this.student.isHavingHeavyLicence = student.isHavingHeavyLicence;
     this.student.profilePic = student.profilePic;
+    this.student.profilePicBytes = student.profilePicBytes;
     this.student.courseId = 1;
     this.config.class = 'large-model';
     this.modalRef = this._modalService.show(template, this.config);

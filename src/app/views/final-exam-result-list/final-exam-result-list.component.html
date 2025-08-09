@@ -1,0 +1,43 @@
+<div class="card">
+  <div class="card-header">
+    All Students
+  </div>
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-lg-8">
+        <input class="form-control" type="text" placeholder="Search for Student" aria-label="Search">
+      </div>
+      <div class="col-lg-4 text-right">
+        <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Add new Expence" (click)="addDetails(0)">
+          <i class="fa fa-plus-square" aria-hidden="true"></i> Add Result
+        </button>
+      </div>
+    </div>
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="text-center" style="width: 5%;">#</th>
+          <th scope="col" class="text-center" style="width: 30%;">Student Name</th>
+          <th scope="col" class="text-center" style="width: 65%;">QR Code Reference Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let result of resultList; let i = index">
+          <th scope="row" class="text-center">{{ i + 1 }}</th>
+          <td class="text-center">{{ result.studentName }}</td>
+          <td class="text-center">
+            <a [href]="result.qrCodeLink" target="_blank">{{ result.qrCodeLink }}</a>
+          </td>
+        </tr>
+        <tr *ngIf="resultList.length === 0">
+          <td colspan="3" class="text-center">No results found</td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <pagination [boundaryLinks]="true" [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+        class="pagination-sm pull-right" previousText="&lsaquo;" nextText="&rsaquo;" [boundaryLinks]="true"
+        (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+  </div>
+</div>

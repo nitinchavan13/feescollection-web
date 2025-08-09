@@ -1,0 +1,109 @@
+
+<div class="card">
+    <div class="card-header">
+        All Students
+    </div>
+    <div class="card-body">
+<form>
+    <div class="form-group">
+        <label for="studentName">Student Name</label>
+        <input id="studentName" name="studentName" type="text" class="form-control"
+            [(ngModel)]="finalExamDetail.studentName" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="studentProfileImage">Profile Image URL</label>
+        <input id="studentProfileImage" name="studentProfileImage" type="text" class="form-control"
+            [(ngModel)]="finalExamDetail.studentProfileImage" disabled>
+        <img *ngIf="finalExamDetail.studentProfileImage" [src]="finalExamDetail.studentProfileImage" alt="Profile Image"
+            style="max-width:100px; margin-top:10px;">
+    </div>
+
+    <div class="form-group">
+        <label for="instituteName">Institute Name</label>
+        <input id="instituteName" name="instituteName" type="text" class="form-control"
+            [(ngModel)]="finalExamDetail.instituteName" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="prnNumber">PRN Number</label>
+        <input id="prnNumber" name="prnNumber" type="text" class="form-control" [(ngModel)]="finalExamDetail.prnNumber">
+    </div>
+
+    <div class="form-group">
+        <label for="dateOfAdmission">Date of Admission</label>
+        <input id="dateOfAdmission" name="dateOfAdmission" type="date" class="form-control"
+            [(ngModel)]="finalExamDetail.dateOfAdmission">
+    </div>
+
+    <div class="form-group">
+        <label for="dateOfCompletion">Date of Completion</label>
+        <input id="dateOfCompletion" name="dateOfCompletion" type="date" class="form-control"
+            [(ngModel)]="finalExamDetail.dateOfCompletion">
+    </div>
+
+    <div class="form-group">
+        <label for="courseName">Course Name</label>
+        <input id="courseName" name="courseName" type="text" class="form-control"
+            [(ngModel)]="finalExamDetail.courseName" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="courseDuration">Course Duration</label>
+        <input id="courseDuration" name="courseDuration" type="text" class="form-control"
+            [(ngModel)]="finalExamDetail.courseDuration" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status" class="form-control" [(ngModel)]="finalExamDetail.status">
+            <option value="Passed">Passed</option>
+            <option value="Failed">Failed</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Result</label>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Subject Name</th>
+                    <th>Marks Obtained</th>
+                    <th>Total Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let res of finalExamDetail.result; let i = index">
+                    <td>
+                        <input type="text" [(ngModel)]="res.subjectName" name="subjectName{{i}}" class="form-control"
+                            disabled>
+                    </td>
+                    <td>
+                        <input type="number" [(ngModel)]="res.marksObtained" name="marksObtained{{i}}"
+                            class="form-control" (ngModelChange)="calculateObtainedMarks()">
+                    </td>
+                    <td>
+                        <input type="number" [(ngModel)]="res.totalMarks" name="totalMarks{{i}}" class="form-control"
+                            disabled>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-group">
+        <label for="obtainedMarks">Obtained Marks</label>
+        <input id="obtainedMarks" name="obtainedMarks" type="number" class="form-control"
+            [(ngModel)]="finalExamDetail.obtainedMarks" disabled>
+    </div>
+
+    <div class="form-group">
+        <label for="totalMarks">Total Marks</label>
+        <input id="totalMarks" name="totalMarks" type="number" class="form-control"
+            [(ngModel)]="finalExamDetail.totalMarks" disabled>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+    </div>
+</div>

@@ -144,11 +144,22 @@ export class StudentDetailsComponent implements OnInit {
   }
 
   sendPaymentReminder() {
-    let msgText = `कु. ` + this.studentInfo.name + ` सण २०२४-२५ या शैक्षणीक वर्षा करता मास्टर कॉलेज रत्नागिरी येते फायर अँड सेफ्टी या कोर्स करता आपला प्रवेश झाला असून कॉलेज फी आता पर्यंत ` + this.collectedFees + ` एवढी भरली आहे उर्वरित फी ` + this.remainingFees + ` असून दर महिन्याला ठरल्या प्रमाणे ५००० फी भरून सहकार्य करावे.
+    //     var selectedAcademicYear = localStorage.getItem('selectedAcademicYear');
+    //     let msgText = `कु. ` + this.studentInfo.name + ` सण ` + selectedAcademicYear + ` या शैक्षणीक वर्षा करता मास्टर कॉलेज रत्नागिरी येते फायर अँड सेफ्टी या कोर्स करता आपला प्रवेश झाला असून कॉलेज फी आता पर्यंत ` + this.collectedFees + ` एवढी भरली आहे उर्वरित फी ` + this.remainingFees + ` असून दर महिन्याला ठरल्या प्रमाणे ५००० फी भरून सहकार्य करावे.
 
-⏺️मास्टर फायर अँड सेफ्टी कॉलेज रत्नागिरी`;
+    // ⏺️मास्टर फायर अँड सेफ्टी कॉलेज रत्नागिरी`;
 
-    let url = 'https://api.whatsapp.com/send?phone=91' + this.studentInfo.mobileNumber + '&text=' + msgText;
+    //     let url = 'https://api.whatsapp.com/send?phone=91' + this.studentInfo.mobileNumber + '&text=' + msgText;
+    //     window.open(url, "_blank");
+    const selectedAcademicYear = localStorage.getItem('selectedAcademicYear');
+    const msgText =
+      `कु. ${this.studentInfo.name},\n` +
+      `${selectedAcademicYear} या शैक्षणिक वर्षासाठी मास्टर फायर अँड सेफ्टी कॉलेज, रत्नागिरी येथे फायर अँड सेफ्टी कोर्ससाठी आपला प्रवेश निश्चित झाला आहे.\n` +
+      `आतापर्यंत आपण रु. ${this.collectedFees} फी भरली आहे. उर्वरित फी रु. ${this.remainingFees} आहे.\n` +
+      `कृपया दर महिन्याला ठरल्याप्रमाणे रु. ५००० फी नियमितपणे भरून सहकार्य करावे.\n\n` +
+      `⏺️ मास्टर फायर अँड सेफ्टी कॉलेज, रत्नागिरी`;
+
+    const url = 'https://api.whatsapp.com/send?phone=91' + this.studentInfo.mobileNumber + '&text=' + encodeURIComponent(msgText);
     window.open(url, "_blank");
   }
 }

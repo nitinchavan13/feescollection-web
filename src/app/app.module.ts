@@ -69,6 +69,8 @@ import { ToastrModule } from 'ng6-toastr-notifications';
 import { StudentDetailsComponent } from './views/student-details/student-details.component';
 import { AllExamsComponent } from './views/all-exams/all-exams.component';
 import { ExamDetailsComponent } from './views/exam-details/exam-details.component';
+import { FinalExamResultAddComponent } from './views/final-exam-result-add/final-exam-result-add.component';
+import { FinalExamResultListComponent } from './views/final-exam-result-list/final-exam-result-list.component';
 
 @NgModule({
   imports: [
@@ -108,7 +110,9 @@ import { ExamDetailsComponent } from './views/exam-details/exam-details.componen
     ExpenceListComponent,
     StudentDetailsComponent,
     AllExamsComponent,
-    ExamDetailsComponent
+    ExamDetailsComponent,
+    FinalExamResultAddComponent,
+    FinalExamResultListComponent
   ],
   providers: [
     {
